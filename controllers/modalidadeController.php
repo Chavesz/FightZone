@@ -38,5 +38,17 @@ class ModalidadeController {
 
         return $modalidades;
     }
+
+    // Busca modalidades de um gerente específico
+    public function obterModalidadesDoGerente($gerente_id) {
+        $stmt = $this->modalidadeModel->listarPorGerente($gerente_id);
+        $modalidades = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $modalidades[] = $row;
+        }
+
+        return $modalidades;
+    }
 }
 

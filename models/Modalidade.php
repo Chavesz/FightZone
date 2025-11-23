@@ -45,4 +45,17 @@ class Modalidade {
         $stmt->execute();
         return $stmt;
     }
+
+    // Lista modalidades por gerente
+    public function listarPorGerente($gerente_id) {
+        $query = "SELECT m.id, m.nome, m.descricao, u.nome as nome_gerente
+                  FROM " . $this->table_name . " m
+                  LEFT JOIN usuarios u ON m.gerente_id = u.id
+                  WHERE m.gerente_id = :gerente_id
+                  ORDER BY m.nome";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":gerente_id", $gerente_id);
+        $stmt->execute();
+        return $stmt;
+    }
 }
