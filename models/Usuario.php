@@ -27,7 +27,7 @@ class Usuario {
         $stmt->bindParam(":tipo", $tipo);
 
         if($stmt->execute()){
-            return true;
+            return $this->conn->lastInsertId();
         }
         return false;
     }

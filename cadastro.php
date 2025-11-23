@@ -1,20 +1,38 @@
 <?php
 session_start();
 
-// Inclui o Controller para processar o formulário
+// Inclui os Controllers necessários
 require_once __DIR__ . '/controllers/usuarioController.php';
+require_once __DIR__ . '/controllers/alunosModalidadeController.php';
 
 $mensagem = '';
 $usuarioController = new UsuarioController();
+$inscricaoController = new AlunosModalidadeController();
 
-// Verifica se o formulário foi enviado
+// Busca a lista de modalidades para o dropdown
+$modalidades_disponiveis = $inscricaoController->listarModalidadesDisponiveis();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Chama a função de registro do Controller
-    $resultado = $usuarioController->registrar($_POST);
+    // Cria o usuário (agora retorna o user_id)
+    $resultado_usuario = $usuarioController->registrar($_POST);
+    $mensagem = $resultado_usuario['message'];
 
-    // Define a mensagem de feedback para o usuário
-    $mensagem = $resultado['message'];
+    if ($resultado_usuario['status'] == 'success') {
+        
+        $user_id = $resultado_usuario['user_id'];
+        $modalidade_id = filter_input(INPUT_POST, 'modalidade_inicial', FILTER_VALIDATE_INT);
+        
+        // Inscreve o usuário na modalidade escolhida
+        if ($modalidade_id) {
+            $resultado_inscricao = $inscricaoController->processarInscricao($user_id, $modalidade_id);
+            
+            // Combina as mensagens de feedback
+            $mensagem .= " e " . $resultado_inscricao['message'];
+        } else {
+            $mensagem .= " (Nenhuma modalidade inicial selecionada).";
+        }
+    }
 }
 ?>
 
@@ -30,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Cadastro de Novo Aluno</h1>
 
         <?php if ($mensagem): ?>
-            <p style="color: <?php echo (isset($resultado) && $resultado['status'] == 'success') ? 'green' : 'red'; ?>;">
+            <p style="color: <?php echo (isset($resultado_usuario) && $resultado_usuario['status'] == 'success') ? 'green' : 'red'; ?>;">
                 <?php echo $mensagem; ?>
             </p>
         <?php endif; ?>
@@ -46,11 +64,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required><br><br>
 
-            <button type="submit">Finalizar Cadastro</button>
+            <h2>Escolha sua Modalidade Inicial:</h2>
+            <select id="modalidade_inicial" name="modalidade_inicial">
+                <option value="">(Opcional) Escolha uma Luta</option>
+                <?php foreach ($modalidades_disponiveis as $modalidade): ?>
+                    <option value="<?php echo $modalidade['id']; ?>">
+                        <?php echo $modalidade['nome']; ?> (Gerente: <?php echo $modalidade['nome_gerente'] ?? 'N/A'; ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select><br><br>
+
+            <button type="submit">Finalizar Cadastro e Inscrição</button>
         </form>
 
         <p>Já tem conta? <a href="login.php">Faça Login</a></p>
     </div>
 </body>
 </html>
-

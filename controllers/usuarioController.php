@@ -14,16 +14,16 @@ class UsuarioController {
             return ['status' => 'error', 'message' => 'Todos os campos são obrigatórios.'];
         }
 
-        $cadastro_sucesso = $this->usuarioModel->cadastrar(
+        $user_id = $this->usuarioModel->cadastrar(
             $data['nome'],
             $data['email'],
             $data['senha']
         );
 
-        if ($cadastro_sucesso) {
-            return ['status' => 'success', 'message' => 'Cadastro realizado com sucesso!'];
+        if ($user_id) {
+            return ['status' => 'success', 'message' => 'Usuário criado com sucesso!', 'user_id' => $user_id];
         } else {
-            return ['status' => 'error', 'message' => 'Erro ao salvar no banco de dados.'];
+            return ['status' => 'error', 'message' => 'Erro ao salvar o usuário.'];
         }
     }
 
