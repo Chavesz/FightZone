@@ -6,3 +6,11 @@ CREATE TABLE usuarios (
     tipo ENUM('aluno', 'gerente', 'admin') NOT NULL DEFAULT 'aluno'
 );
 
+CREATE TABLE modalidades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    descricao TEXT,
+    gerente_id INT,
+    FOREIGN KEY (gerente_id) REFERENCES usuarios(id)
+);
+
