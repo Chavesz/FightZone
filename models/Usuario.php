@@ -60,5 +60,20 @@ class Usuario {
         }
         return false; // Login falhou
     }
+
+    // Lista usuários por tipo
+    public function listarPorTipo($tipo) {
+        $query = "SELECT id, nome FROM " . $this->table_name . " WHERE tipo = :tipo ORDER BY nome";
+        $stmt = $this->conn->prepare($query);
+        $tipo = htmlspecialchars(strip_tags($tipo));
+        $stmt->bindParam(':tipo', $tipo);
+        $stmt->execute();
+        
+        $usuarios = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $usuarios[] = $row;
+        }
+        return $usuarios;
+    }
 }
 

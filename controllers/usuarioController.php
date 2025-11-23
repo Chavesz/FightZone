@@ -52,5 +52,10 @@ class UsuarioController {
             return ['status' => 'error', 'message' => 'Email ou senha incorretos.'];
         }
     }
+
+    // Lista usuários por tipo
+    public function listarPorTipo($tipo) {
+        return $this->usuarioModel->listarPorTipo($tipo);
+    }
 }
 
