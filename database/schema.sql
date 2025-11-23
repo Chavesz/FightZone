@@ -22,3 +22,13 @@ CREATE TABLE alunos_modalidade (
     FOREIGN KEY (modalidade_id) REFERENCES modalidades(id)
 );
 
+CREATE TABLE aulas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    modalidade_id INT NOT NULL,
+    instrutor_id INT NOT NULL,
+    dia_semana ENUM('Segunda', 'Terca', 'Quarta', 'Quinta', 'Sexta', 'Sabado', 'Domingo') NOT NULL,
+    horario TIME NOT NULL,
+    FOREIGN KEY (modalidade_id) REFERENCES modalidades(id),
+    FOREIGN KEY (instrutor_id) REFERENCES usuarios(id)
+);
+
