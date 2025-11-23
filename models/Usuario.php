@@ -7,8 +7,6 @@ class Usuario {
     private $table_name = "usuarios";
 
     public function __construct() {
-        
-        // Conecta com o banco
         $database = new Database();
         $this->conn = $database->getConnection();
     }
@@ -19,11 +17,8 @@ class Usuario {
         
         $stmt = $this->conn->prepare($query);
 
-        // Limpa os dados
         $nome = htmlspecialchars(strip_tags($nome));
         $email = htmlspecialchars(strip_tags($email));
-
-        // Criptografa a senha
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         
         $stmt->bindParam(":nome", $nome);
@@ -53,12 +48,27 @@ class Usuario {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $senha_hash = $row['senha'];
 
-            // Verifica se a senha está correta
             if (password_verify($senha, $senha_hash)) {
-                return $row; // Retorna todos os dados do usuário
+                return $row;
             }
         }
-        return false; // Login falhou
+        return false;
+    }
+
+    // Lista alunos inscritos em uma modalidade
+    public function listarAlunosInscritos($modalidade_id) {
+        $query = "SELECT u.nome, u.email, u.criado_em, m.nome as modalidade_nome
+                  FROM usuarios u
+                  JOIN alunos_modalidade am ON u.id = am.aluno_id
+                  JOIN modalidades m ON am.modalidade_id = m.id
+                  WHERE am.modalidade_id = :modalidade_id
+                  ORDER BY u.nome";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":modalidade_id", $modalidade_id);
+        $stmt->execute();
+        
+        return $stmt;
     }
 
     // Lista usuários por tipo

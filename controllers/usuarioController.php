@@ -10,19 +10,16 @@ class UsuarioController {
     }
 
     public function registrar($data) {
-        // Valida se os campos estão preenchidos
         if (empty($data['nome']) || empty($data['email']) || empty($data['senha'])) {
             return ['status' => 'error', 'message' => 'Todos os campos são obrigatórios.'];
         }
 
-        // Chama o model para salvar no banco
         $cadastro_sucesso = $this->usuarioModel->cadastrar(
             $data['nome'],
             $data['email'],
             $data['senha']
         );
 
-        // Retorna o resultado
         if ($cadastro_sucesso) {
             return ['status' => 'success', 'message' => 'Cadastro realizado com sucesso!'];
         } else {
@@ -31,17 +28,13 @@ class UsuarioController {
     }
 
     public function logar($data) {
-        // Valida se os campos estão preenchidos
         if (empty($data['email']) || empty($data['senha'])) {
             return ['status' => 'error', 'message' => 'Email e senha são obrigatórios.'];
         }
 
-        // Chama a função logar do Model
         $usuario = $this->usuarioModel->logar($data['email'], $data['senha']);
 
-        // Verifica o resultado
         if ($usuario) {
-            // Inicia a sessão com os dados do usuário
             $_SESSION['usuario_logado'] = true;
             $_SESSION['user_id'] = $usuario['id'];
             $_SESSION['user_nome'] = $usuario['nome'];
@@ -51,6 +44,17 @@ class UsuarioController {
         } else {
             return ['status' => 'error', 'message' => 'Email ou senha incorretos.'];
         }
+    }
+
+    // Busca alunos inscritos em uma modalidade
+    public function obterAlunosPorModalidade($modalidade_id) {
+        $stmt = $this->usuarioModel->listarAlunosInscritos($modalidade_id);
+        $alunos = [];
+        
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $alunos[] = $row;
+        }
+        return $alunos;
     }
 
     // Lista usuários por tipo
