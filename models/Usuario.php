@@ -36,5 +36,29 @@ class Usuario {
         }
         return false;
     }
+
+    // Verifica login e retorna dados do usuário
+    public function logar($email, $senha) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email LIMIT 0,1";
+
+        $stmt = $this->conn->prepare($query);
+        $email = htmlspecialchars(strip_tags($email));
+
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        
+        $num = $stmt->rowCount();
+
+        if ($num > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $senha_hash = $row['senha'];
+
+            // Verifica se a senha está correta
+            if (password_verify($senha, $senha_hash)) {
+                return $row; // Retorna todos os dados do usuário
+            }
+        }
+        return false; // Login falhou
+    }
 }
 
