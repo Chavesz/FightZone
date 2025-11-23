@@ -14,3 +14,11 @@ CREATE TABLE modalidades (
     FOREIGN KEY (gerente_id) REFERENCES usuarios(id)
 );
 
+CREATE TABLE alunos_modalidade (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id INT NOT NULL,
+    modalidade_id INT NOT NULL,
+    FOREIGN KEY (aluno_id) REFERENCES usuarios(id),
+    FOREIGN KEY (modalidade_id) REFERENCES modalidades(id)
+);
+
