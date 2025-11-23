@@ -61,5 +61,17 @@ class UsuarioController {
     public function listarPorTipo($tipo) {
         return $this->usuarioModel->listarPorTipo($tipo);
     }
+
+    // Busca todos os alunos com suas modalidades
+    public function obterTodosAlunosComModalidades() {
+        $stmt = $this->usuarioModel->listarTodosAlunos();
+        $alunos = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $alunos[] = $row;
+        }
+
+        return $alunos;
+    }
 }
 

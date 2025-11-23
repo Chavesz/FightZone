@@ -85,5 +85,21 @@ class Usuario {
         }
         return $usuarios;
     }
+
+    // Lista todos os alunos cadastrados com suas modalidades
+    public function listarTodosAlunos() {
+        $query = "SELECT 
+                    u.id, u.nome, u.email, u.criado_em, 
+                    GROUP_CONCAT(m.nome SEPARATOR ', ') as modalidades_inscritas
+                  FROM usuarios u
+                  LEFT JOIN alunos_modalidade am ON u.id = am.aluno_id
+                  LEFT JOIN modalidades m ON am.modalidade_id = m.id
+                  WHERE u.tipo = 'aluno'
+                  GROUP BY u.id
+                  ORDER BY u.nome";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
 }
 
