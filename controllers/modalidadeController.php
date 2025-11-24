@@ -50,5 +50,39 @@ class ModalidadeController {
 
         return $modalidades;
     }
+
+    // Busca uma modalidade por ID
+    public function obterModalidadePorId($id) {
+        return $this->modalidadeModel->buscarPorId($id);
+    }
+
+    // Atualiza uma modalidade
+    public function atualizarModalidade($id, $data) {
+        if (empty($data['nome']) || empty($data['gerente_id'])) {
+            return ['status' => 'error', 'message' => 'Nome e Gerente são obrigatórios.'];
+        }
+
+        $this->modalidadeModel->id = $id;
+        $this->modalidadeModel->nome = $data['nome'];
+        $this->modalidadeModel->descricao = $data['descricao'] ?? '';
+        $this->modalidadeModel->gerente_id = $data['gerente_id'];
+
+        if ($this->modalidadeModel->atualizar()) {
+            return ['status' => 'success', 'message' => 'Modalidade atualizada com sucesso!'];
+        }
+
+        return ['status' => 'error', 'message' => 'Erro ao atualizar modalidade.'];
+    }
+
+    // Exclui uma modalidade
+    public function excluirModalidade($id) {
+        $this->modalidadeModel->id = $id;
+
+        if ($this->modalidadeModel->excluir()) {
+            return ['status' => 'success', 'message' => 'Modalidade excluída com sucesso!'];
+        }
+
+        return ['status' => 'error', 'message' => 'Erro ao excluir modalidade.'];
+    }
 }
 

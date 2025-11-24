@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="auth-box">
         <h1>Cadastro de Novo Aluno</h1>
 
         <?php if ($mensagem): ?>
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <h2>Escolha sua Modalidade Inicial:</h2>
             <select id="modalidade_inicial" name="modalidade_inicial">
-                <option value="">(Opcional) Escolha uma Luta</option>
+                <option value="">Escolha uma Luta</option>
                 <?php foreach ($modalidades_disponiveis as $modalidade): ?>
                     <option value="<?php echo $modalidade['id']; ?>">
                         <?php echo $modalidade['nome']; ?> (Gerente: <?php echo $modalidade['nome_gerente'] ?? 'N/A'; ?>)

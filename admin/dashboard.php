@@ -25,17 +25,9 @@ $todos_alunos = $usuarioController->obterTodosAlunosComModalidades();
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Dashboard Administrativo</h1>
-        <p>Bem-vindo(a), **<?php echo $admin_nome; ?>**. Aqui você tem a visão completa do sistema.</p>
-
-        <hr>
-
-        <h2>⚙️ Opções do Sistema</h2>
-        <ul>
-            <li><a href="artes.php">Gerenciar Modalidades (CRUD)</a></li>
-            <li><a href="../logout.php">Sair</a></li>
-        </ul>
+    <div class="dashboard-container">
+        <h1>Bem-vindo, <?php echo $admin_nome; ?>! 👋</h1>
+        <p>Aqui você tem a visão completa do sistema.</p>
 
         <hr>
 
@@ -44,7 +36,6 @@ $todos_alunos = $usuarioController->obterTodosAlunosComModalidades();
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Modalidades Inscritas</th>
@@ -54,7 +45,6 @@ $todos_alunos = $usuarioController->obterTodosAlunosComModalidades();
                 <tbody>
                     <?php foreach ($todos_alunos as $aluno): ?>
                         <tr>
-                            <td><?php echo $aluno['id']; ?></td>
                             <td><?php echo $aluno['nome']; ?></td>
                             <td><?php echo $aluno['email']; ?></td>
                             <td><?php echo $aluno['modalidades_inscritas'] ?: 'Nenhuma'; ?></td>
@@ -66,6 +56,14 @@ $todos_alunos = $usuarioController->obterTodosAlunosComModalidades();
         <?php else: ?>
             <p>Nenhum aluno cadastrado no sistema ainda.</p>
         <?php endif; ?>
+
+        <hr>
+
+        <h2>⚙️ Opções do Sistema</h2>
+        <ul>
+            <li><a href="artes.php">Gerenciar Modalidades (CRUD)</a></li>
+            <li><a href="../logout.php">Sair</a></li>
+        </ul>
     </div>
 </body>
 </html>

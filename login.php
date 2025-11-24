@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="auth-box">
         <h1>Login - FightZone</h1>
 
         <?php if ($mensagem): ?>

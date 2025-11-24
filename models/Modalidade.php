@@ -58,4 +58,49 @@ class Modalidade {
         $stmt->execute();
         return $stmt;
     }
+
+    // Busca uma modalidade por ID
+    public function buscarPorId($id) {
+        $query = "SELECT m.id, m.nome, m.descricao, m.gerente_id, u.nome as nome_gerente
+                  FROM " . $this->table_name . " m
+                  LEFT JOIN usuarios u ON m.gerente_id = u.id
+                  WHERE m.id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Atualiza uma modalidade
+    public function atualizar() {
+        $query = "UPDATE " . $this->table_name . " 
+                  SET nome = :nome, descricao = :descricao, gerente_id = :gerente_id 
+                  WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        $this->nome = htmlspecialchars(strip_tags($this->nome));
+        $this->descricao = htmlspecialchars(strip_tags($this->descricao));
+        
+        $stmt->bindParam(":nome", $this->nome);
+        $stmt->bindParam(":descricao", $this->descricao);
+        $stmt->bindParam(":gerente_id", $this->gerente_id);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    // Exclui uma modalidade
+    public function excluir() {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
 }

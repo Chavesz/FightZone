@@ -30,16 +30,16 @@ $modalidades_gerenciadas = $modalidadeController->obterModalidadesDoGerente($ger
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Dashboard do Gerente</h1>
-        <p>Bem-vindo(a), **<?php echo $gerente_nome; ?>**. Você é o responsável pelas modalidades abaixo.</p>
+    <div class="dashboard-container">
+        <h1>Bem-vindo, <?php echo $gerente_nome; ?>! 👋</h1>
+        <p>Você é o responsável pelas modalidades abaixo.</p>
 
         <hr>
         
         <?php if (!empty($modalidades_gerenciadas)): ?>
             <?php foreach ($modalidades_gerenciadas as $modalidade): ?>
                 
-                <h2>🥊 <?php echo $modalidade['nome']; ?> (ID: <?php echo $modalidade['id']; ?>)</h2>
+                <h2>🥊 <?php echo $modalidade['nome']; ?></h2>
                 <p>
                     Descrição: <?php echo $modalidade['descricao']; ?><br>
                     Gerente: <?php echo $modalidade['nome_gerente']; ?>
@@ -58,6 +58,7 @@ $modalidades_gerenciadas = $modalidadeController->obterModalidadesDoGerente($ger
                             <tr>
                                 <th>Nome</th>
                                 <th>Email</th>
+                                <th>Data de Cadastro</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,6 +66,7 @@ $modalidades_gerenciadas = $modalidadeController->obterModalidadesDoGerente($ger
                                 <tr>
                                     <td><?php echo $aluno['nome']; ?></td>
                                     <td><?php echo $aluno['email']; ?></td>
+                                    <td><?php echo isset($aluno['criado_em']) ? date('d/m/Y', strtotime($aluno['criado_em'])) : 'N/A'; ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -79,8 +81,12 @@ $modalidades_gerenciadas = $modalidadeController->obterModalidadesDoGerente($ger
             <p>Você ainda não foi designado como Gerente de nenhuma modalidade. Entre em contato com o Admin.</p>
         <?php endif; ?>
 
-        <p><a href="../logout.php">Sair do Sistema</a></p>
+        <hr>
 
+        <h2>⚙️ Opções</h2>
+        <ul>
+            <li><a href="../logout.php">Sair</a></li>
+        </ul>
     </div>
 </body>
 </html>

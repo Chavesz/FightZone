@@ -29,7 +29,7 @@ $minhas_inscricoes = $inscricaoController->obterMinhasInscricoes($aluno_id);
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard-container">
         <h1>Bem-vindo, <?php echo $aluno_nome; ?>! 👋</h1>
         <p>Sua jornada nas artes marciais começa agora. Concentre-se nos seus treinos!</p>
         
@@ -80,7 +80,10 @@ $minhas_inscricoes = $inscricaoController->obterMinhasInscricoes($aluno_id);
         
         <hr>
 
-        <p><strong><a href="../logout.php">Sair do Sistema</a></strong></p>
+        <h2>⚙️ Opções</h2>
+        <ul>
+            <li><a href="../logout.php">Sair</a></li>
+        </ul>
     </div>
 </body>
 </html>
