@@ -1,56 +1,43 @@
-# FIGHTZONE: Sistema de Gestão de Modalidades
+# FightZone
 
-## I. VISÃO GERAL DO PROJETO
+Sistema web para academias de artes marciais: cadastro de alunos, modalidades, aulas e inscrições, com áreas separadas para administrador, gerente e aluno.
 
-Sistema web desenvolvido em **PHP Puro** para gestão de alunos e inscrição em modalidades de artes marciais. O projeto utiliza o padrão MVC (Model, View, Controller).
+## Funcionalidades
 
----
+- Login com senha criptografada (`password_hash` / `password_verify`)
+- Três perfis com painéis próprios: admin, gerente e aluno
+- Cadastro de modalidades, artes marciais e aulas
+- Inscrição de alunos em modalidades
 
-## 🛠️ SETUP LOCAL (PRIMEIROS PASSOS)
+## Stack
 
-Para rodar o projeto, você deve ter o **XAMPP/WAMP (Apache e MySQL)** instalado.
+PHP puro no padrão MVC (Models, Views, Controllers), PDO e MySQL.
 
-### 1. Preparação dos Arquivos
+## Estrutura
 
-1.  **Mova** a pasta `FightZone` (este repositório) para dentro do diretório `htdocs` do seu XAMPP.
-2.  Inicie os módulos **Apache** e **MySQL**.
+```
+config/       conexão com o banco (PDO)
+models/       Usuario, Modalidade, Aula, AlunosModalidade
+controllers/  regras de negócio de cada entidade
+admin/ gerente/ aluno/   painéis por perfil
+database/     schema.sql e seed.sql
+```
 
-### 2. Acesso ao Sistema
+## Como rodar
 
-O sistema pode ser acessado pelo navegador:
-`http://localhost/fightzone/login.php`
+1. Instale o XAMPP (Apache + MySQL) e coloque esta pasta em `htdocs/fightzone`.
+2. No phpMyAdmin, crie o banco `fightzone` e rode `database/schema.sql` e depois `database/seed.sql`.
+3. Acesse http://localhost/fightzone/login.php
 
----
+Contas de teste (senha `123`): `admin@fightzone.com`, `gerente@fightzone.com` e `aluno@fightzone.com`.
 
-## 💾 CONFIGURAÇÃO DO BANCO DE DADOS
+## Equipe
 
-O banco de dados deve ser configurado localmente.
+Projeto em dupla da faculdade.
 
-### 1. Criar e Importar Estrutura
+- **Kauã Chaves:** back-end (models e controllers) e arquitetura MVC
+- **Kauã Rodrigues Morais:** tabelas SQL e views
 
-1.  Acesse o **phpMyAdmin** (`http://localhost/phpmyadmin`).
-2.  Crie o banco de dados `fightzone`.
-3.  Vá para a aba **SQL** e execute o código contido no arquivo **`database/schema.sql`** para criar todas as tabelas.
+## O que aprendi
 
-### 2. Contas de Teste (Usuários Iniciais)
-
-O sistema exige usuários com diferentes permissões. Insira as seguintes contas (Senha para todas é **`123`**):
-
-* **Nota:** O valor longo (hash) da senha `123` é obrigatório para que o login funcione.
-
-| Tipo | E-mail de Teste | Senha (Hash) |
-| :--- | :--- | :--- |
-| **Admin** | `admin@fightzone.com` | *[INSERIR HASH AQUI]* |
-| **Gerente** | `gerente@fightzone.com` | *[INSERIR HASH AQUI]* |
-| **Aluno** | `aluno@fightzone.com` | *[INSERIR HASH AQUI]* |
-
-**(Substitua a linha `[INSERIR HASH AQUI]` pelo hash real que você gerou.)**
-
----
-
-## 🤝 COLABORAÇÃO
-
-O projeto demonstra a colaboração e divisão de trabalho por responsabilidades:
-
-* **[Kauã da silva chaves pereira]:** Lógica de Back-end (Models, Controllers) e Arquitetura.
-* **[Kauã Rodrigues morais]:** Criação das Tabelas SQL e Implementação das Views (Interface).
+Separar responsabilidades no MVC sem framework, usar PDO com parâmetros para evitar SQL injection e controlar acesso por perfil.
